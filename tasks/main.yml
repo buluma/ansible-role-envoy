@@ -1,0 +1,59 @@
+---
+# - name: preflight checks
+#   include_tasks: "preflight.yml"
+
+- name: Check if already installed
+  ansible.builtin.stat:
+    path: "{{ envoy_bin_path }}/envoy"
+  changed_when: false
+  check_mode: false
+  register: envoy_is_installed
+
+- name: Check current version
+  ansible.builtin.command: "{{ envoy_bin_path }}/envoy --version"
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  register: envoy_current_version
+  when: envoy_is_installed.stat.exists
+
+# - name: prerequisite
+#   include_tasks: "prerequisite.yml"
+- name: Add the envoy group
+  ansible.builtin.group:
+    name: "{{ envoy_group }}"
+    state: present
+
+- name: Add the envoy user
+  ansible.builtin.user:
+    name: "{{ envoy_user }}"
+    group: "{{ envoy_group }}"
+    comment: "envoy proxy"
+    system: "{{ envoy_system_user }}"
+    createhome: false
+    shell: /sbin/nologin
+    state: present
+
+- name: create envoy conf directory
+  ansible.builtin.file:
+    path: "{{ envoy_conf_path }}"
+    state: directory
+    owner: "{{ envoy_user }}"
+    group: "{{ envoy_group }}"
+    mode: "0750"
+
+- name: install envoy
+  include_tasks: "install.yml"
+
+# - name: create envoy config
+#   include_tasks: "config.yml"
+- name: create envoy config file
+  ansible.builtin.template:
+    src: "envoy.yaml.j2"
+    dest: "{{ envoy_conf_path }}/envoy.yaml"
+    owner: "{{ envoy_user }}"
+    group: "{{ envoy_group }}"
+    mode: "0640"
+  notify:
+    - Restart envoy
+  when: envoy_config | length > 0

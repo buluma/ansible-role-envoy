@@ -1,0 +1,20 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Debian | Install xz-utils
+      ansible.builtin.package:
+        name: "xz-utils"
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: RedHat | Install xz
+      ansible.builtin.package:
+        name:
+          - "xz"
+          - "tar"
+        state: present
+      when: ansible_os_family == "RedHat"

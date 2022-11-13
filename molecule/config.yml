@@ -1,0 +1,19 @@
+---
+molecule_exceptions:
+  - variation: CentOS 7
+    reason: "Current envoy version (1.22) not supported on CentOS 7"
+molecule_scenarios:
+  - scenario: "default"
+    ansible: ["previous", "current"]
+    platforms:
+      - "debian10"
+      - "debian11"
+      - "ubuntu1804"
+      - "ubuntu2004"
+      - "ubuntu2204"
+      - "centos-stream8"
+      - "fedora35"
+      - "fedora36"
+      - "amazonlinux"
+      - "rockylinux8"
+      - "almalinux8"
