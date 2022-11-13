@@ -16,6 +16,9 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
   become: true
   gather_facts: true
   vars:
+    envoy_version: "1.24.0"
+    envoy_arch: "linux-arm64"
+    envoy_checksum: "sha256:2673a763aee8e60e466b67e54b8323f0f53d5ea8e4ac5d9186f41b0387a303ba"
     envoy_systemd: true
     envoy_config:
       admin:
@@ -204,7 +207,7 @@ Some roles can't run on a specific distribution or version. Here are some except
 
 | variation                 | reason                 |
 |---------------------------|------------------------|
-| alpine:edge | Failed to create temporary directory. |
+| centos:7 | Current envoy version (1.22) not supported on CentOS 7 |
 
 If you find issues, please register them in [GitHub](https://github.com/buluma/ansible-role-envoy/issues)
 
@@ -220,6 +223,6 @@ Apache-2.0
 
 [buluma](https://buluma.github.io/)
 
-## [Special Thanks](#special-thanks)
+### [Special Thanks](#special-thanks)
 
 Template inspired by [Robert de Bock](https://github.com/robertdebock)
