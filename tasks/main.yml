@@ -1,6 +1,15 @@
 ---
-# - name: preflight checks
-#   include_tasks: "preflight.yml"
+- name: Import assert.yml
+  ansible.builtin.import_tasks: assert.yml
+  run_once: yes
+  delegate_to: localhost
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ auto_update_packages }}"
+    state: present
+
+# preflight checks
 
 - name: Check if already installed
   ansible.builtin.stat:
@@ -17,8 +26,7 @@
   register: envoy_current_version
   when: envoy_is_installed.stat.exists
 
-# - name: prerequisite
-#   include_tasks: "prerequisite.yml"
+# prerequisites
 - name: Add the envoy group
   ansible.builtin.group:
     name: "{{ envoy_group }}"
@@ -34,7 +42,7 @@
     shell: /sbin/nologin
     state: present
 
-- name: create envoy conf directory
+- name: Create envoy conf directory
   ansible.builtin.file:
     path: "{{ envoy_conf_path }}"
     state: directory
@@ -42,12 +50,11 @@
     group: "{{ envoy_group }}"
     mode: "0750"
 
-- name: install envoy
+- name: Install envoy
   include_tasks: "install.yml"
 
-# - name: create envoy config
-#   include_tasks: "config.yml"
-- name: create envoy config file
+# create envoy config
+- name: Create envoy config file
   ansible.builtin.template:
     src: "envoy.yaml.j2"
     dest: "{{ envoy_conf_path }}/envoy.yaml"

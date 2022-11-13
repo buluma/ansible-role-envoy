@@ -4,6 +4,9 @@
   become: true
   gather_facts: true
   vars:
+    envoy_version: "1.24.0"
+    envoy_arch: "linux-arm64"
+    envoy_checksum: "sha256:2673a763aee8e60e466b67e54b8323f0f53d5ea8e4ac5d9186f41b0387a303ba"
     envoy_systemd: true
     envoy_config:
       admin:
@@ -49,4 +52,4 @@
                             port_value: 1234
 
   roles:
-    - role: "ansible-role-envoy"
+    - role: "buluma.envoy"
