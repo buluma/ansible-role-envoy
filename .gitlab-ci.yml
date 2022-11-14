@@ -10,7 +10,7 @@ variables:
 
 molecule:
   tags:
-    - ec2-af-south-1
+    - af-south-1
   stage: build
   allow_failure: true
   script:
@@ -50,7 +50,7 @@ molecule:
 
 galaxy:
   tags:
-    - ec2-af-south-1
+    - af-south-1
   script:
     - ansible-galaxy role import --api-key ${GALAXY_API_KEY} ${CI_PROJECT_NAMESPACE} ${CI_PROJECT_NAME}
   rules:
