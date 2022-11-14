@@ -1,7 +1,7 @@
 ---
 roles:
   - name: buluma.bootstrap
-  - name: buluma.ca
+  - name: buluma.openssl
   - name: buluma.ca_certificates
 collections:
   - name: community.general
