@@ -1,7 +1,11 @@
 ---
 image: "buluma/github-action-molecule:5.0.0"
 
+# services:
+#   - docker:dind
+
 variables:
+  DOCKER_HOST: "tcp://docker:2375"
   PY_COLORS: 1
 
 molecule:
@@ -10,7 +14,8 @@ molecule:
   stage: build
   allow_failure: true
   script:
-    - image=${image} tag=${tag} molecule test
+    - if [ -f tox.ini ] ; then tox ; fi
+    - if [ ! -f tox.ini ] ; then molecule test ; fi
   rules:
     - if: $CI_COMMIT_REF_NAME == "master"
   retry: 1
