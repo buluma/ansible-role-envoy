@@ -18,3 +18,4 @@ exclude_paths:
 
 warn_list:  # or 'skip_list' to silence them completely
   - fqcn[action-core]
+  - yaml[comments-indentation]  # Violations reported by yamllint.
