@@ -4,7 +4,7 @@
 _envoy_packages:
   Debian:
     - xz-utils
-    - setuptools
+    - python-setuptools
   RedHat-7:
     - xz
     - tar
