@@ -1,5 +1,5 @@
 ---
-image: "buluma/github-action-molecule:5.0.0"
+# image: "buluma/github-action-molecule:5.0.0"
 
 variables:
   PY_COLORS: 1
@@ -13,7 +13,6 @@ molecule:
     - image=${image} tag=${tag} molecule test
   rules:
     - if: $CI_COMMIT_REF_NAME == "master"
-  retry: 1
   parallel:
     matrix:
       - image: "enterpriselinux"
