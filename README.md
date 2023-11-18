@@ -1,14 +1,15 @@
-# [envoy](#envoy)
+# [Ansible role envoy](#envoy)
 
 Install and configure Envoy on your linux system.
 
-|GitHub|GitLab|Quality|Downloads|Version|Issues|Pull Requests|
-|------|------|-------|---------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-envoy/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-envoy/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-envoy/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-envoy)|[![quality](https://img.shields.io/ansible/quality/60893)](https://galaxy.ansible.com/buluma/envoy)|[![downloads](https://img.shields.io/ansible/role/d/60893)](https://galaxy.ansible.com/buluma/envoy)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/pulls/)|
+|GitHub|GitLab|Downloads|Version|Issues|Pull Requests|
+|------|------|-------|-------|------|-------------|
+|[![github](https://github.com/buluma/ansible-role-envoy/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-envoy/actions)|[![gitlab](https://gitlab.com/shadowwalker/ansible-role-envoy/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-envoy)|[![downloads](https://img.shields.io/ansible/role/d/4699)](https://galaxy.ansible.com/buluma/envoy)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-envoy.svg)](https://github.com/buluma/ansible-role-envoy/pulls/)|
 
 ## [Example Playbook](#example-playbook)
 
-This example is taken from `molecule/default/converge.yml` and is tested on each push, pull request and release.
+This example is taken from [`molecule/default/converge.yml`](https://github.com/buluma/ansible-role-envoy/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
+
 ```yaml
 ---
 - name: Converge
@@ -16,9 +17,6 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
   become: true
   gather_facts: true
   vars:
-    envoy_version: "1.24.0"
-    envoy_arch: "linux-arm64"
-    envoy_checksum: "sha256:2673a763aee8e60e466b67e54b8323f0f53d5ea8e4ac5d9186f41b0387a303ba"
     envoy_systemd: true
     envoy_config:
       admin:
@@ -67,7 +65,8 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
     - role: "buluma.envoy"
 ```
 
-The machine needs to be prepared. In CI this is done using `molecule/default/prepare.yml`:
+The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-envoy/blob/master/molecule/default/prepare.yml):
+
 ```yaml
 ---
 - name: Prepare
@@ -75,26 +74,19 @@ The machine needs to be prepared. In CI this is done using `molecule/default/pre
   become: true
   gather_facts: true
 
-  tasks:
-    - name: Debian | Install xz-utils
-      ansible.builtin.package:
-        name: "xz-utils"
-        state: present
-      when: ansible_os_family == "Debian"
-
-    - name: RedHat | Install xz
-      ansible.builtin.package:
-        name:
-          - "xz"
-          - "tar"
-        state: present
-      when: ansible_os_family == "RedHat"
+  roles:
+    - role: buluma.bootstrap
+    - role: buluma.setuptools
+    # - role: buluma.openssl
+    - role: buluma.ca_certificates
 ```
 
+Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
 
 ## [Role Variables](#role-variables)
 
-The default values for the variables are set in `defaults/main.yml`:
+The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-envoy/blob/master/defaults/main.yml):
+
 ```yaml
 ---
 envoy_bin_path: "/usr/local/bin"
@@ -172,8 +164,18 @@ envoy_config: []
 
 ## [Requirements](#requirements)
 
-- pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-envoy/blob/main/requirements.txt).
+- pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-envoy/blob/master/requirements.txt).
 
+## [State of used roles](#state-of-used-roles)
+
+The following roles are used to prepare a system. You can prepare your system in another way.
+
+| Requirement | GitHub | GitLab |
+|-------------|--------|--------|
+|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Build Status GitHub](https://github.com/buluma/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-bootstrap/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-bootstrap)|
+|[buluma.setuptools](https://galaxy.ansible.com/buluma/setuptools)|[![Build Status GitHub](https://github.com/buluma/ansible-role-setuptools/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-setuptools/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-setuptools/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-setuptools)|
+|[buluma.openssl](https://galaxy.ansible.com/buluma/openssl)|[![Build Status GitHub](https://github.com/buluma/ansible-role-openssl/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-openssl/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-openssl/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-openssl)|
+|[buluma.ca_certificates](https://galaxy.ansible.com/buluma/ca_certificates)|[![Build Status GitHub](https://github.com/buluma/ansible-role-ca_certificates/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-ca_certificates/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-ca_certificates/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-ca_certificates)|
 
 ## [Context](#context)
 
@@ -189,25 +191,17 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 
 |container|tags|
 |---------|----|
-|el|all|
-|amazon|Candidate|
-|fedora|all|
-|ubuntu|all|
-|debian|all|
+|[EL](https://hub.docker.com/repository/docker/buluma/enterpriselinux/general)|all|
+|[Amazon](https://hub.docker.com/repository/docker/buluma/amazonlinux/general)|Candidate|
+|[Fedora](https://hub.docker.com/repository/docker/buluma/fedora/general)|all|
+|[Ubuntu](https://hub.docker.com/repository/docker/buluma/ubuntu/general)|all|
+|[Debian](https://hub.docker.com/repository/docker/buluma/debian/general)|all|
 
 The minimum version of Ansible required is 2.10, tests have been done to:
 
 - The previous version.
 - The current version.
 - The development version.
-
-## [Exceptions](#exceptions)
-
-Some roles can't run on a specific distribution or version. Here are some exceptions.
-
-| variation                 | reason                 |
-|---------------------------|------------------------|
-| centos:7 | Current envoy version (1.22) not supported on CentOS 7 |
 
 If you find issues, please register them in [GitHub](https://github.com/buluma/ansible-role-envoy/issues)
 
@@ -217,11 +211,13 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 
 ## [License](#license)
 
-Apache-2.0
+[Apache-2.0](https://github.com/buluma/ansible-role-envoy/blob/master/LICENSE).
 
 ## [Author Information](#author-information)
 
 [buluma](https://buluma.github.io/)
+
+Please consider [sponsoring me](https://github.com/sponsors/buluma).
 
 ### [Special Thanks](#special-thanks)
 

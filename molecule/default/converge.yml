@@ -4,7 +4,7 @@
   become: true
   gather_facts: true
   vars:
-    envoy_systemd: false
+    envoy_systemd: true
     envoy_config:
       admin:
         address:
