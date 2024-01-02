@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-envoy/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-envoy/compare/0.0.1...HEAD)
+
+**Closed issues:**
+
+- Update buluma/todo-to-issue-action@v1.0.1 @buluma [\#6](https://github.com/buluma/ansible-role-envoy/issues/6)
+
 ## [0.0.1](https://github.com/buluma/ansible-role-envoy/tree/0.0.1) (2022-11-13)
 
 [Full Changelog](https://github.com/buluma/ansible-role-envoy/compare/3c0532096925a38a805ace93ceb06264383fcdee...0.0.1)
