@@ -13,4 +13,4 @@ _envoy_packages:
     - tar
   Rocky: *redhat_packages
 
-auto_update_packages: "{{ _envoy_packages[ansible_os_family ~ '-' ~ ansible_distribution_major_version] | default(_envoy_packages[ansible_os_family] | default(_envoy_packages['default'] )) }}"
+auto_update_packages: "{{ _envoy_packages[ansible_os_family ~ '-' ~ ansible_distribution_major_version] | default(_envoy_packages[ansible_os_family] | default(_envoy_packages['default'])) }}"

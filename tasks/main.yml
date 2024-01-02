@@ -1,6 +1,7 @@
 ---
 - name: Import assert.yml
-  ansible.builtin.import_tasks: assert.yml
+  ansible.builtin.import_tasks:
+    file: assert.yml
   run_once: yes
   delegate_to: localhost
 
@@ -51,7 +52,8 @@
     mode: "0750"
 
 - name: Install envoy
-  include_tasks: "install.yml"
+  ansible.builtin.import_tasks:
+    file: "install.yml"
 
 # create envoy config
 - name: Create envoy config file

@@ -1,5 +1,5 @@
 ---
-- name: Download envoy binary
+- name: install | Download envoy binary
   ansible.builtin.get_url:
     url: "{{ envoy_download_url }}"
     dest: "{{ envoy_download_path }}"
@@ -13,7 +13,7 @@
   when:
     - not envoy_is_installed.stat.exists or envoy_version not in envoy_current_version.stdout
 
-- name: Unpack envoy binaries
+- name: install | Unpack envoy binaries
   ansible.builtin.unarchive:
     src: "{{ envoy_download_path }}"
     dest: "{{ envoy_unarchive_dest }}"
@@ -22,7 +22,7 @@
   when:
     - not envoy_is_installed.stat.exists or envoy_version not in envoy_current_version.stdout
 
-- name: Delete existing version if it's different.
+- name: install | Delete existing version if it's different.
   ansible.builtin.file:
     path: "{{ envoy_bin_path }}/envoy"
     state: absent
@@ -30,7 +30,7 @@
     - envoy_is_installed.stat.exists
     - envoy_version not in envoy_current_version.stdout
 
-- name: Propagate envoy binary
+- name: install | Propagate envoy binary
   ansible.builtin.copy:
     src: "{{ envoy_unarchive_creates }}"
     dest: "{{ envoy_bin_path }}/envoy"
@@ -43,7 +43,7 @@
   when:
     - not envoy_is_installed.stat.exists or envoy_version not in envoy_current_version.stdout
 
-- name: Create systemd service unit
+- name: install | Create systemd service unit
   ansible.builtin.template:
     src: envoy.systemd.j2
     dest: "/etc/systemd/system/envoy.service"
