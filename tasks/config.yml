@@ -1,5 +1,5 @@
 ---
-- name: Create envoy config file
+- name: config | Create envoy config file
   ansible.builtin.template:
     src: "envoy.yaml.j2"
     dest: "{{ envoy_conf_path }}/envoy.yaml"
