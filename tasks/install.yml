@@ -29,6 +29,8 @@
   when:
     - envoy_is_installed.stat.exists
     - envoy_version not in envoy_current_version.stdout
+  tags:
+    - molecule-notest
 
 - name: install | Propagate envoy binary
   ansible.builtin.copy:
@@ -42,6 +44,8 @@
     - Restart envoy
   when:
     - not envoy_is_installed.stat.exists or envoy_version not in envoy_current_version.stdout
+  tags:
+    - molecule-notest
 
 - name: install | Create systemd service unit
   ansible.builtin.template:

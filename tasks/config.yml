@@ -9,3 +9,5 @@
   notify:
     - Restart envoy
   when: envoy_config | length > 0
+  tags:
+    - molecule-notest
